@@ -2,7 +2,7 @@
 
 App web de un solo archivo HTML para el aula y el panel interactivo: **alarma, temporizador, cronómetro y hora actual**, con pantalla completa y barras de progreso animadas.
 
-**▶ Pruébala:** https://luisjsolsona.github.io/reloj-alarma/
+**▶ Pruébala:** https://luisjsolsona.github.io/reloj-alarma-temporizador/
 
 ![Pantalla de inicio](capturas/inicio.jpg)
 
