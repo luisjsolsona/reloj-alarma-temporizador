@@ -207,6 +207,27 @@ select{background:#1a2036;color:var(--fg);border:1px solid var(--bd);border-radi
 .ufo .al{position:absolute;left:50%;top:105%;font-size:30px;transform:translateX(-50%) scale(0);transition:transform .5s cubic-bezier(.3,1.8,.5,1) .3s}
 .done .ufo .al{transform:translateX(-50%) scale(1)}
 
+/* gta: niveles de búsqueda */
+.gta{position:absolute;inset:0;background:radial-gradient(circle at 50% 130%,#1e1b4b,#05060d 70%);overflow:hidden}
+.gta .siren{position:absolute;inset:0;opacity:0;transition:opacity .4s}
+.gta.l3 .siren,.gta.l4 .siren{opacity:1;animation:siren .7s infinite steps(1)}
+@keyframes siren{0%{background:linear-gradient(90deg,rgba(239,68,68,.38),transparent 45%)}50%{background:linear-gradient(270deg,rgba(59,130,246,.38),transparent 45%)}}
+.gta .radar{position:absolute;width:420px;height:420px;left:calc(50% - 210px);top:38%;border-radius:50%;opacity:0;transition:opacity .6s;
+  background:radial-gradient(circle,#f43f5e 0 5px,transparent 6px),repeating-radial-gradient(circle,rgba(239,68,68,.45) 0 2px,transparent 2px 30px);overflow:hidden}
+.gta .radar i{position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(239,68,68,.5),transparent 25%);animation:sweep 2.4s linear infinite}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.gta.l4 .radar{opacity:.9}
+.gta-in{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;column-gap:clamp(16px,4vw,48px);row-gap:2px;padding:0 16px;z-index:2}
+.stars5 span{display:inline-block;width:1.05em;text-align:center;font-size:min(56px,9vh);line-height:1;color:rgba(255,255,255,.2);transition:color .3s,text-shadow .3s}
+.stars5 span.on{color:#fff;text-shadow:0 0 14px rgba(255,255,255,.75)}
+.gta.l3 .stars5 span.on:nth-child(even){animation:blinkst .55s infinite alternate}
+@keyframes blinkst{to{opacity:.12}}
+.gta.l4 .stars5 span.on{color:#ef4444;text-shadow:0 0 18px #ef4444}
+.gta-txt b{display:block;font-family:Orbitron,sans-serif;font-weight:800;font-size:clamp(14px,2.3vw,24px);letter-spacing:.06em;color:#2dd4bf}
+.gta.l4 .gta-txt b{color:#f87171}
+.gta-txt small{display:block;color:#cbd5e1;font-size:14px;margin-top:2px}
+.gta-txt .gl{display:block;font-family:Orbitron,sans-serif;font-size:13px;color:#94a3b8;margin-top:4px}
+
 /* vela */
 .t-vela{background:radial-gradient(circle at 50% 70%,#7c2d12 0,#1c0a03 70%)}
 .cwrap{position:absolute;left:0;right:0;top:8px;bottom:8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
@@ -249,6 +270,10 @@ body.fs .mozosvg{height:16vh}
 body.fs .bullsvg{height:13vh}
 body.fs .sf .plaza{font-size:13vh}
 body.fs .ufosvg{width:20vh}
+body.fs .stars5 span{font-size:10vh}
+body.fs .gta-txt b{font-size:3.6vh}
+body.fs .gta-txt small{font-size:2.4vh}
+body.fs .gta .radar{width:70vh;height:70vh;left:calc(50% - 35vh)}
 body.fs .space2 .planet{font-size:24vh;bottom:-9vh}
 body.fs .ufo .al{font-size:6vh}
 body.fs .flame{font-size:7vh}
@@ -405,7 +430,7 @@ async function keepAwake(on){try{if(on&&!wl&&navigator.wakeLock){wl=await naviga
 function updWake(){keepAwake(T.status==='running'||W.running||A.armed)}
 
 /* ---------- progress bars ---------- */
-const TYPES=[['normal','▬','Normal'],['circular','⭕','Circular'],['carrera','🏃','Carrera'],['jungla','🐊','Jungla'],['cohete','🚀','Cohete'],['sanfermin','🐂','San Fermín'],['alien','🛸','Alien'],['vela','🕯️','Vela'],['arena','⏳','Reloj de arena']];
+const TYPES=[['normal','▬','Normal'],['circular','⭕','Circular'],['carrera','🏃','Carrera'],['jungla','🐊','Jungla'],['cohete','🚀','Cohete'],['sanfermin','🐂','San Fermín'],['alien','🛸','Alien'],['gta','⭐','GTA'],['vela','🕯️','Vela'],['arena','⏳','Reloj de arena']];
 let uid=0;
 const TPL={
   normal:()=>`<div class="pn-track"><div class="pn-fill" data-k="fill"></div></div><div class="pn-txt" data-k="txt"></div>`,
@@ -416,6 +441,7 @@ const TPL={
   sanfermin:()=>{let h='';const cols=['#fbbf24','#fde68a','#fca5a5','#e7e5e4','#fdba74','#d9f99d','#bfdbfe','#fecaca'];for(let i=0;i<12;i++)h+=`<div class="house" style="background:${cols[i%8]}"><i></i><i></i></div>`;
     return `<div class="sf"><div class="street">${h}</div><div class="cobble"></div><div class="plaza" data-k="pl">🏟️</div><div class="mover" data-k="bu"><svg class="bullsvg" viewBox="0 0 130 75"><path d="M12 30 q-9 4 -7 20" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/><g class="blB"><path d="M28 46 L22 71" stroke="#0c0a09" stroke-width="8" stroke-linecap="round"/></g><g class="blA"><path d="M86 46 L80 71" stroke="#0c0a09" stroke-width="8" stroke-linecap="round"/></g><ellipse cx="57" cy="38" rx="48" ry="20" fill="#1c1917"/><path d="M80 20 q8 -6 16 2 l-6 14Z" fill="#1c1917"/><path d="M88 26 q22 -8 31 9 q3 11 -9 13 q-14 2 -23 -6Z" fill="#1c1917"/><path d="M104 23 q-3 -12 -15 -14" stroke="#f5f0dc" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M110 24 q8 -11 17 -10" stroke="#f5f0dc" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="113" cy="32" r="2.2" fill="#ef4444"/><circle cx="121" cy="42" r="1.5" fill="#57534e"/><g class="blA"><path d="M34 46 L40 71" stroke="#292524" stroke-width="8" stroke-linecap="round"/></g><g class="blB"><path d="M92 46 L98 71" stroke="#292524" stroke-width="8" stroke-linecap="round"/></g></svg></div><div class="mover" data-k="m"><span class="bub" data-k="b"></span><svg class="mozosvg" viewBox="0 0 50 90"><g class="legB"><path d="M24 55 L18 84" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round"/><path d="M18 85 h-6" stroke="#222" stroke-width="5" stroke-linecap="round"/></g><g class="armB"><path d="M23 30 L13 44" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round"/></g><g class="legA"><path d="M24 55 L31 84" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M31 85 h7" stroke="#222" stroke-width="5" stroke-linecap="round"/></g><rect x="16" y="24" width="17" height="32" rx="6" fill="#fff" stroke="#cbd5e1"/><rect x="15" y="47" width="19" height="6" fill="#dc2626"/><path d="M33 52 l6 9 l-4 1Z" fill="#dc2626"/><path d="M16 25 L34 25 L25 38Z" fill="#dc2626"/><circle cx="26" cy="15" r="8" fill="#f2c094"/><path d="M18 13 q8 -11 16 -1" fill="#3b2a1a"/><circle cx="30" cy="15" r="1.3" fill="#111"/><g class="armA"><path d="M25 30 L36 43" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g></svg></div></div><div class="p-label in" data-k="lab"></div>`},
   alien:()=>`<div class="space2"><div class="stars"></div><div class="planet" data-k="pl">🌍</div><div class="mover ufo" data-k="m"><div class="beam"></div><span class="al">👽</span><svg class="ufosvg" viewBox="0 0 100 50"><ellipse cx="50" cy="20" rx="20" ry="16" fill="#67e8f9" opacity=".85"/><circle cx="50" cy="17" r="6" fill="#4ade80"/><circle cx="47.5" cy="16" r="1.4" fill="#111"/><circle cx="52.5" cy="16" r="1.4" fill="#111"/><ellipse cx="50" cy="30" rx="48" ry="12" fill="#94a3b8"/><ellipse cx="50" cy="27" rx="48" ry="6" fill="#cbd5e1"/><circle class="lt" cx="18" cy="32" r="3" fill="#facc15"/><circle class="lt" cx="38" cy="36" r="3" fill="#f43f5e"/><circle class="lt" cx="62" cy="36" r="3" fill="#22c55e"/><circle class="lt" cx="82" cy="32" r="3" fill="#facc15"/></svg></div></div><div class="p-label in" data-k="lab"></div>`,
+  gta:()=>`<div class="gta l1" data-k="g"><div class="siren"></div><div class="radar"><i></i></div><div class="gta-in"><div class="stars5" data-k="st">${'<span>☆</span>'.repeat(5)}</div><div class="gta-txt"><b data-k="t"></b><small data-k="d"></small><span class="gl" data-k="gl"></span></div></div></div>`,
   vela:()=>`<div class="cwrap"><div class="flame" data-k="f">🔥</div><div class="wax" data-k="w"></div><div class="puddle" data-k="pd"></div></div><div class="p-label in" data-k="lab"></div>`,
   arena:()=>{const id='hg'+(++uid);return `<svg viewBox="0 0 100 160"><defs><clipPath id="${id}t"><polygon points="16,12 84,12 52,78 48,78"/></clipPath><clipPath id="${id}b"><polygon points="48,82 52,82 84,148 16,148"/></clipPath><linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset=".5" stop-color="#fde68a"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs>
     <rect x="6" y="2" width="88" height="10" rx="4" fill="#92400e"/><rect x="6" y="148" width="88" height="10" rx="4" fill="#92400e"/>
@@ -440,6 +466,15 @@ const UPD={
     q.lab.textContent=o.done?'¡A la plaza! 🏟️':(l||'')},
   alien(q,p,l,o){const W=q.el.clientWidth,uw=q.m.offsetWidth||100,pc=W-10-(q.pl.offsetWidth||120)/2,x0=8,x1=Math.max(x0,pc-uw/2);
     q.m.style.left=(x0+(x1-x0)*p)+'px';q.m.style.top=(4+p*14)+'%';q.lab.textContent=o.done?'👽 ¡Han llegado!':(l||'')},
+  gta(q,p,l,o){
+    // 5 estrellas que se van encendiendo; el estado sube cada 25 %: huecas → blancas → parpadeando → rojas (heat zone)
+    const n=o.done?5:(p>0?Math.min(5,1+Math.floor(p*5)):0),L=o.done?4:p<.25?1:p<.5?2:p<.75?3:4,k=n+'|'+L;
+    if(q._s!==k){q._s=k;[...q.st.children].forEach((st,i)=>{const on=i<n;st.className=on?'on':'';st.textContent=(on&&L>1)?'★':'☆'});q.g.className='gta l'+L}
+    const T=['','ESTRELLAS HUECAS','ESTRELLAS BLANCAS','ESTRELLAS PARPADEANDO','HEAT ZONE'],
+          D=['','Se ha denunciado un delito','La policía te tiene a la vista','Has roto la línea de visión','Te buscan dentro de la zona'];
+    q.t.textContent=o.done?'¡TE HAN PILLADO! 🚔':(p>0?T[L]:'SIN BÚSQUEDA');
+    q.d.textContent=o.done?'Se acabó el tiempo':(p>0?D[L]:'Todo tranquilo... de momento');
+    q.gl.textContent=l||''},
   vela(q,p,l,o){q.w.style.height=((1-p)*64+6)+'%';q.pd.style.width=(30+p*120)+'px';q.f.textContent=o.done?'💨':'🔥';q.lab.textContent=l||''},
   arena(q,p,l,o){const h=66*(1-p);q.top.setAttribute('y',78-h);q.top.setAttribute('height',h);const hb=66*p;q.bot.setAttribute('y',148-hb);q.bot.setAttribute('height',hb);
     q.s.style.display=(p>0&&p<1&&o.active)?'':'none';q.s.setAttribute('y2',148-hb);q.lab.textContent=l||''}
