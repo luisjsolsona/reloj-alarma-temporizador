@@ -27,7 +27,7 @@ Cada herramienta guarda su propio tipo de barra (⚙️ Ajustes):
 - 🚀 Cohete: de la Tierra a la Luna
 - 🐂 San Fermín: el toro persigue al mozo (de blanco y pañuelo rojo) hasta la plaza
 - 🛸 Alien: un ovni llega a la Tierra
-- ⭐ GTA: sube el nivel de búsqueda (estrellas huecas → blancas → parpadeando → rojas en la heat zone)
+- ⭐ GTA: sube el nivel de búsqueda (estrellas huecas → blancas → parpadeando → rojas en la heat zone) y se van encendiendo los iconos de lo que recuerda la policía (cámaras, armas, testigos, ropa, rostro y vehículo)
 - 🕯️ Vela: se consume hasta apagarse
 - ⏳ Reloj de arena
 
